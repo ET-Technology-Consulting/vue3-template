@@ -1,5 +1,5 @@
 <template>
-  <div class="item dark:text-zinc-50">
+  <div class="item dark:text-secondary-50">
     <i>
       <slot name="icon"></slot>
     </i>

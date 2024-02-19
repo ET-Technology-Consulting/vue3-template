@@ -1,3 +1,3 @@
 export interface CatFact {
-    text: string;
+  text: string
 }

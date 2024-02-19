@@ -1,238 +1,253 @@
-<!--
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
 <template>
-    <!--
-      This example requires updating your template:
-  
-      ```
-      <html class="h-full bg-white">
-      <body class="h-full">
-      ```
-    -->
-    <div class="dark:bg-zinc-900">
-      <TransitionRoot as="template" :show="sidebarOpen">
-        <Dialog as="div" class="relative z-50 lg:hidden" @close="sidebarOpen = false">
-          <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="transition-opacity ease-linear duration-300" leave-from="opacity-100" leave-to="opacity-0">
-            <div class="fixed inset-0 bg-zinc-900/80" />
-          </TransitionChild>
-  
-          <div class="fixed inset-0 flex">
-            <TransitionChild as="template" enter="transition ease-in-out duration-300 transform" enter-from="-translate-x-full" enter-to="translate-x-0" leave="transition ease-in-out duration-300 transform" leave-from="translate-x-0" leave-to="-translate-x-full">
-              <DialogPanel class="relative mr-16 flex w-full max-w-xs flex-1">
-                <TransitionChild as="template" enter="ease-in-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in-out duration-300" leave-from="opacity-100" leave-to="opacity-0">
-                  <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
-                    <button type="button" class="-m-2.5 p-2.5" @click="sidebarOpen = false">
-                      <span class="sr-only">Close sidebar</span>
-                      <XMarkIcon class="h-6 w-6 text-white" aria-hidden="true" />
-                    </button>
-                  </div>
-                </TransitionChild>
-                <!-- Sidebar component, swap this element with another sidebar if you like -->
-                <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-teal-600 dark:bg-teal-800 px-6 pb-4">
-                  <div class="flex h-16 shrink-0 items-center">
-                    <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=white" alt="Your Company" />
-                  </div>
-                  <nav class="flex flex-1 flex-col">
-                    <ul role="list" class="flex flex-1 flex-col gap-y-7">
-                      <li>
-                        <ul role="list" class="-mx-2 space-y-1">
-                          <li v-for="item in navigation" :key="item.name">
-                            <a :href="item.href" :class="[item.current ? 'bg-teal-700 text-white' : 'text-teal-200 hover:text-white hover:bg-teal-700', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
-                              <component :is="item.icon" :class="[item.current ? 'text-white' : 'text-teal-200 group-hover:text-white', 'h-6 w-6 shrink-0']" aria-hidden="true" />
-                              {{ item.name }}
-                            </a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <div class="text-xs font-semibold leading-6 text-teal-200">Your teams</div>
-                        <ul role="list" class="-mx-2 mt-2 space-y-1">
-                          <li v-for="team in teams" :key="team.name">
-                            <a :href="team.href" :class="[team.current ? 'bg-teal-700 text-white' : 'text-teal-200 hover:text-white hover:bg-teal-700', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
-                              <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-teal-400 bg-teal-500 text-[0.625rem] font-medium text-white">{{ team.initial }}</span>
-                              <span class="truncate">{{ team.name }}</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li class="mt-auto">
-                        <a href="#" class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-teal-200 hover:bg-teal-700 hover:text-white">
-                          <Cog6ToothIcon class="h-6 w-6 shrink-0 text-teal-200 group-hover:text-white" aria-hidden="true" />
-                          Settings
-                        </a>
-                      </li>
-                    </ul>
-                  </nav>
-                </div>
-              </DialogPanel>
-            </TransitionChild>
-          </div>
-        </Dialog>
-      </TransitionRoot>
-  
-      <!-- Static sidebar for desktop -->
-      <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-        <!-- Sidebar component, swap this element with another sidebar if you like -->
-        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-teal-500 px-6 pb-4">
-          <div class="flex h-16 shrink-0 items-center">
-            <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=white" alt="Your Company" />
-          </div>
-          <nav class="flex flex-1 flex-col">
-            <ul role="list" class="flex flex-1 flex-col gap-y-7">
-              <li>
-                <ul role="list" class="-mx-2 space-y-1">
-                  <li v-for="item in navigation" :key="item.name">
-                    <a :href="item.href" :class="[item.current ? 'bg-teal-700 text-white' : 'text-teal-200 hover:text-white hover:bg-teal-700', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
-                      <component :is="item.icon" :class="[item.current ? 'text-white' : 'text-teal-200 group-hover:text-white', 'h-6 w-6 shrink-0']" aria-hidden="true" />
-                      {{ item.name }}
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <div class="text-xs font-semibold leading-6 text-teal-200">Your teams</div>
-                <ul role="list" class="-mx-2 mt-2 space-y-1">
-                  <li v-for="team in teams" :key="team.name">
-                    <a :href="team.href" :class="[team.current ? 'bg-teal-700 text-white' : 'text-teal-200 hover:text-white hover:bg-teal-700', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
-                      <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-teal-400 bg-teal-500 text-[0.625rem] font-medium text-white">{{ team.initial }}</span>
-                      <span class="truncate">{{ team.name }}</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="mt-auto">
-                <a href="#" class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-teal-200 hover:bg-teal-700 hover:text-white">
-                  <Cog6ToothIcon class="h-6 w-6 shrink-0 text-teal-200 group-hover:text-white" aria-hidden="true" />
-                  Settings
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-  
-      <div class="lg:pl-72 dark:bg-zinc-900">
-        <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-          <button type="button" class="-m-2.5 p-2.5 text-zinc-700 lg:hidden" @click="sidebarOpen = true">
-            <span class="sr-only">Open sidebar</span>
-            <Bars3Icon class="h-6 w-6" aria-hidden="true" />
-          </button>
-  
-          <!-- Separator -->
-          <div class="h-6 w-px bg-zinc-900/10 lg:hidden" aria-hidden="true" />
-  
-          <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-            <form class="relative flex flex-1" action="#" method="GET">
-              <label for="search-field" class="sr-only">Search</label>
-              <MagnifyingGlassIcon class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-zinc-400" aria-hidden="true" />
-              <input id="search-field" class="block h-full w-full border-0 py-0 pl-8 pr-0 text-zinc-900 placeholder:text-zinc-400 focus:ring-0 sm:text-sm dark:bg-zinc-900" placeholder="Search..." type="search" name="search" />
-            </form>
-            <div class="flex items-center gap-x-4 lg:gap-x-6">
-              <button type="button" class="-m-2.5 p-2.5 text-zinc-400 hover:text-zinc-500">
-                <span class="sr-only">View notifications</span>
-                <BellIcon class="h-6 w-6" aria-hidden="true" />
-              </button>
+  <div class="dark:bg-secondary-900">
+    <TransitionRoot as="template" :show="sidebarOpen">
+      <Dialog as="div" class="relative z-50 lg:hidden" @close="sidebarOpen = false">
+        <TransitionChild
+          as="template"
+          enter="transition-opacity ease-linear duration-300"
+          enter-from="opacity-0"
+          enter-to="opacity-100"
+          leave="transition-opacity ease-linear duration-300"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+        >
+          <div class="fixed inset-0 bg-secondary-900/80" />
+        </TransitionChild>
 
-              <button
-                @click="toggleDark()"
-                class="rounded bg-teal-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+        <div class="fixed inset-0 flex">
+          <TransitionChild
+            as="template"
+            enter="transition ease-in-out duration-300 transform"
+            enter-from="-translate-x-full"
+            enter-to="translate-x-0"
+            leave="transition ease-in-out duration-300 transform"
+            leave-from="translate-x-0"
+            leave-to="-translate-x-full"
+          >
+            <DialogPanel class="relative mr-16 flex w-full max-w-xs flex-1">
+              <TransitionChild
+                as="template"
+                enter="ease-in-out duration-300"
+                enter-from="opacity-0"
+                enter-to="opacity-100"
+                leave="ease-in-out duration-300"
+                leave-from="opacity-100"
+                leave-to="opacity-0"
               >
-                Dark Toggle
-              </button>
-  
-              <!-- Separator -->
-              <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-zinc-900/10" aria-hidden="true" />
-  
-              <!-- Profile dropdown -->
-              <Menu as="div" class="relative">
-                <MenuButton class="-m-1.5 flex items-center p-1.5">
-                  <span class="sr-only">Open user menu</span>
-                  <img class="h-8 w-8 rounded-full bg-zinc-50" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-                  <span class="hidden lg:flex lg:items-center">
-                    <span class="ml-4 text-sm font-semibold leading-6 text-zinc-950 dark:text-zinc-50" aria-hidden="true">Tom Cook</span>
-                    <ChevronDownIcon class="ml-2 h-5 w-5 text-zinc-400" aria-hidden="true" />
-                  </span>
-                </MenuButton>
-                <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-                  <MenuItems class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white dark:bg-zinc-700 py-2 shadow-lg ring-1 ring-zinc-900/5 focus:outline-none">
-                    <MenuItem v-for="item in userNavigation" :key="item.name" v-slot="{ active }">
-                      <a :href="item.href" :class="[active ? 'bg-zinc-50 dark:bg-zinc-500' : '', 'block px-3 py-1 text-sm leading-6 text-zinc-950 dark:text-zinc-50']">{{ item.name }}</a>
-                    </MenuItem>
-                  </MenuItems>
-                </transition>
-              </Menu>
-            </div>
-          </div>
+                <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
+                  <button type="button" class="-m-2.5 p-2.5" @click="sidebarOpen = false">
+                    <span class="sr-only">Close sidebar</span>
+                    <XMarkIcon class="h-6 w-6 text-secondary-50" aria-hidden="true" />
+                  </button>
+                </div>
+              </TransitionChild>
+              <!-- Sidebar component, swap this element with another sidebar if you like -->
+              <div
+                class="flex grow flex-col gap-y-5 overflow-y-auto bg-primary-600 dark:bg-primary-800 px-6 pb-4"
+              >
+                <div class="flex h-16 shrink-0 items-center bg-secondary-50">
+                  <img class="h-8 w-auto" :src="'/assets/yacast-logo-svg-vector.svg'" alt="Your Company" />
+                </div>
+                <nav class="flex flex-1 flex-col">
+                  <ul role="list" class="flex flex-1 flex-col gap-y-7">
+                    <li>
+                      <ul role="list" class="-mx-2 space-y-1">
+                        <li v-for="item in navigation" :key="item.name">
+                          <a
+                            :href="item.href"
+                            :class="[
+                              item.current
+                                ? 'bg-primary-700 text-secondary-50'
+                                : 'text-primary-200 hover:text-secondary-50 hover:bg-primary-700',
+                              'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                            ]"
+                          >
+                            <!-- <component :is="item.icon"
+                              :class="[item.current ? 'text-secondary-50' : 'text-primary-200 group-hover:text-secondary-50', 'h-6 w-6 shrink-0']"
+                              aria-hidden="true" /> -->
+                            <font-awesome-icon
+                              :icon="['fad', item.icon]"
+                              size="xl"
+                              :class="[
+                                item.current
+                                  ? 'text-secondary-50'
+                                  : 'text-primary-200 group-hover:text-secondary-50',
+                                'h-6 w-6 shrink-0'
+                              ]"
+                            />
+                            {{ item.name }}
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
         </div>
-  
-        <main class="py-10 dark:bg-zinc-900">
-          <div class="px-4 sm:px-6 lg:px-8">
-            <router-view></router-view>
-          </div>
-        </main>
+      </Dialog>
+    </TransitionRoot>
+
+    <!-- Static sidebar for desktop -->
+    <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+      <!-- Sidebar component, swap this element with another sidebar if you like -->
+      <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-primary-500 px-6 pb-4">
+        <div class="flex shrink-0 items-center bg-secondary-200 mt-4 px-4 rounded-md shadow">
+          <img class="h-16 text-center" :src="'/assets/yacast-logo-svg-vector.svg'" alt="Your Company" />
+        </div>
+        <nav class="flex flex-1 flex-col">
+          <ul role="list" class="flex flex-1 flex-col gap-y-7">
+            <li>
+              <ul role="list" class="-mx-2 space-y-1">
+                <li v-for="item in navigation" :key="item.name">
+                  <a
+                    :href="item.href"
+                    :class="[
+                      item.current
+                        ? 'bg-primary-700 text-secondary-50'
+                        : 'text-primary-200 hover:text-secondary-50 hover:bg-primary-700',
+                      'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                    ]"
+                  >
+                    <font-awesome-icon
+                      :icon="['fad', item.icon]"
+                      size="xl"
+                      :class="[
+                        item.current
+                          ? 'text-secondary-50'
+                          : 'text-primary-200 group-hover:text-secondary-50',
+                        'h-6 w-6 shrink-0'
+                      ]"
+                    />
+                    {{ item.name }}
+                    <font-awesome-icon
+                      v-if="item.wip"
+                      :icon="['fad', 'triangle-person-digging']"
+                      size="xl"
+                      class="text-danger-500 text-right"
+                    />
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
-  </template>
-  
-  <script setup lang="ts">
-  import { ref } from 'vue'
-  import {
-    Dialog,
-    DialogPanel,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-    TransitionChild,
-    TransitionRoot,
-  } from '@headlessui/vue'
-  import {
-    Bars3Icon,
-    BellIcon,
-    CalendarIcon,
-    ChartPieIcon,
-    Cog6ToothIcon,
-    DocumentDuplicateIcon,
-    FolderIcon,
-    HomeIcon,
-    UsersIcon,
-    XMarkIcon,
-  } from '@heroicons/vue/24/outline'
-  import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
-  import { useDark, useToggle } from '@vueuse/core';
 
-  const isDark = useDark();
-  const toggleDark = useToggle(isDark);
-  
-  const navigation = [
-    { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-    { name: 'Team', href: '#', icon: UsersIcon, current: false },
-    { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-    { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-    { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-    { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
-  ]
-  const teams = [
-    { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-    { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-    { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
-  ]
-  const userNavigation = [
-    { name: 'Your profile', href: '#' },
-    { name: 'Sign out', href: '#' },
-  ]
-  
-  const sidebarOpen = ref(false)
-  </script>
+    <div class="lg:pl-72 dark:bg-secondary-900">
+      <div
+        class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-secondary-200 dark:border-secondary-700 bg-secondary-50 dark:bg-secondary-900 px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8"
+      >
+        <button
+          type="button"
+          class="-m-2.5 p-2.5 text-secondary-700 lg:hidden"
+          @click="sidebarOpen = true"
+        >
+          <span class="sr-only">Open sidebar</span>
+          <Bars3Icon class="h-6 w-6" aria-hidden="true" />
+        </button>
+
+        <!-- Separator -->
+        <div class="h-6 w-px bg-secondary-900/10 lg:hidden" aria-hidden="true" />
+
+        <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+          <div class="relative flex flex-1"></div>
+          <div class="flex items-center gap-x-4 lg:gap-x-6">
+            <button
+              @click="toggleDark()"
+              class="rounded bg-primary-600 p-2 text-xs font-semibold text-secondary-50 shadow-sm hover:bg-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
+            >
+              <font-awesome-icon :icon="['fad', 'space-station-moon']" size="xl" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <main class="py-10 dark:bg-secondary-900">
+        <div class="px-4 sm:px-6 lg:px-8">
+          <router-view></router-view>
+        </div>
+      </main>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import {
+  Dialog,
+  DialogPanel,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  TransitionChild,
+  TransitionRoot
+} from '@headlessui/vue'
+import {
+  Bars3Icon,
+  BellIcon,
+  CalendarIcon,
+  ChartPieIcon,
+  Cog6ToothIcon,
+  DocumentDuplicateIcon,
+  FolderIcon,
+  HomeIcon,
+  UsersIcon,
+  XMarkIcon
+} from '@heroicons/vue/24/outline'
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
+import { useDark, useToggle } from '@vueuse/core'
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
+
+const route = useRoute()
+const path = computed(() => route.path)
+console.log(path.value)
+
+const navigation = [
+  {
+    name: 'Dashboard',
+    href: '/dashboard',
+    icon: 'house',
+    current: path.value === '/dashboard',
+    wip: false
+  },
+  {
+    name: 'Processors',
+    href: '/dashboard/processors',
+    icon: 'microchip',
+    current: path.value === '/dashboard/processors',
+    wip: false
+  },
+  { name: 'Configs', href: '#', icon: 'wrench', current: false, wip: true },
+  {
+    name: 'Buckets',
+    href: '/dashboard/buckets',
+    icon: 'bucket',
+    current: path.value === '/dashboard/buckets',
+    wip: false
+  },
+  {
+    name: 'Catch up',
+    href: '/dashboard/catch-up',
+    icon: 'arrow-rotate-right',
+    current: path.value === '/dashboard/catch-up',
+    wip: true
+  },
+  {
+    name: 'Backtrack',
+    href: '/dashboard/backtrack',
+    icon: 'backward',
+    current: path.value === '/dashboard/backtrack',
+    wip: true
+  }
+]
+
+const sidebarOpen = ref(false)
+</script>

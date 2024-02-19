@@ -1,4 +1,4 @@
-# BC-BO-WEB
+# Reco Orchestrator - Front
 
 This template should help get you started developing with Vue 3 in Vite.
 
@@ -50,3 +50,19 @@ npm run test:unit
 ```sh
 npm run lint
 ```
+
+## TODO
+
+### Views
+
+- [ ] Add processor list (id, active, dynamic app mode)
+- [ ] Add processor details (id, active, app, buckets)
+- [ ] Add bucket list (id, linked processors)
+- [ ] Add reco catch-up (start/end date, buckets, medias)
+
+### Data (static, getting on page load)
+
+- [ ] Get configs
+- [ ] Get medias
+- [ ] Get buckets
+- [ ] Get processors
